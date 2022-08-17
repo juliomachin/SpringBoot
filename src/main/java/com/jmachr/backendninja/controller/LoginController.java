@@ -1,5 +1,6 @@
 package com.jmachr.backendninja.controller;
 
+import com.jmachr.backendninja.constant.ViewConstant;
 import com.jmachr.backendninja.model.UserCredential;
 
 import org.apache.commons.logging.Log;
@@ -31,7 +32,7 @@ public class LoginController {
         model.addAttribute("userCredentials", new UserCredential());
         model.addAttribute("logout", logout);
         LOG.info("Returning to login view");
-        return "login";
+        return ViewConstant.LOGIN;
     }
 
     @PostMapping("/logincheck")
@@ -39,7 +40,7 @@ public class LoginController {
         LOG.info("METHOD: loginCheck() -- PARAMS: " +  userCredential.toString());
         if(userCredential.getUsername().equals("user") && userCredential.getPassword().equals("user")){
             LOG.info("Returning to contacts view");
-            return "contacts";   
+            return "redirect:/contacts/showcontacts";   
         }
         LOG.info("Returning to login?error view");
         return "redirect:/login?error";

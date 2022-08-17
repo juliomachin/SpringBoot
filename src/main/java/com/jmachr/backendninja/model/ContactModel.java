@@ -11,6 +11,8 @@ public class ContactModel {
 	private String lastName;
 	
 	private String telephone;
+
+	private String city;
 	
 	public ContactModel() {
 	}
@@ -64,5 +66,9 @@ public class ContactModel {
 		this.city = city;
 	}
 
-	private String city;
+	@Override
+	public String toString() {
+		return "ContactModel [city=" + city + ", firstName=" + firstName + ", id=" + id + ", lastName=" + lastName + ", telephone=" + telephone + "]";
+	}
+
 }
