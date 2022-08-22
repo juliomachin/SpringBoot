@@ -4,6 +4,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.jmachr.backendninja.constant.ViewConstant;
 import com.jmachr.backendninja.model.ContactModel;
 import com.jmachr.backendninja.services.ContactService;
-import com.jmachr.backendninja.entity.Contact;;
+
 
 @Controller
 @RequestMapping("/contacts")
@@ -34,7 +37,7 @@ public class ContactController {
     }
 
     @GetMapping("contactform")
-    private String redirectContactForm(Model model, @RequestParam(name="id", required=false) int id){
+    public String redirectContactForm(Model model, @RequestParam(name="id", required=false) int id){
         
         ContactModel contact = new ContactModel();
         if(id != 0){
@@ -62,6 +65,8 @@ public class ContactController {
     @GetMapping("/showcontacts")
     public ModelAndView showContacts(){
         ModelAndView mav = new ModelAndView(ViewConstant.CONTACTS);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        mav.addObject("username",user.getUsername());
         mav.addObject("contacts", contactService.listAllContacts());
         return mav;
     }
